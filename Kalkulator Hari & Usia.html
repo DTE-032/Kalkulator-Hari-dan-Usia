@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalkulator Hari & Usia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body class="min-h-screen bg-slate-100 py-10 px-4">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-slate-800 mb-8">
+      <i class="bi bi-calendar-check text-indigo-600"></i> Kalkulator Hari & Usia
+    </h1>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- Kartu 1: Jumlah hari dalam sebulan -->
+      <div class="bg-white rounded-2xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-slate-700 mb-4 flex items-center gap-2">
+          <i class="bi bi-calendar3 text-indigo-600"></i> Jumlah Hari dalam Sebulan
+        </h2>
+
+        <label class="block text-sm font-medium text-slate-600 mb-1">Bulan</label>
+        <select id="bulan" class="w-full border border-slate-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="0">Januari</option>
+          <option value="1">Februari</option>
+          <option value="2">Maret</option>
+          <option value="3">April</option>
+          <option value="4">Mei</option>
+          <option value="5">Juni</option>
+          <option value="6">Juli</option>
+          <option value="7">Agustus</option>
+          <option value="8">September</option>
+          <option value="9">Oktober</option>
+          <option value="10">November</option>
+          <option value="11">Desember</option>
+        </select>
+
+        <label class="block text-sm font-medium text-slate-600 mb-1">Tahun</label>
+        <input id="tahun" type="number" min="1" max="9999"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+
+        <button onclick="hitungHari()"
+          class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition flex items-center justify-center gap-2">
+          <i class="bi bi-calculator"></i> Hitung
+        </button>
+
+        <div id="hasilHari" class="hidden mt-5 p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-center">
+          <p class="text-slate-600 text-sm" id="labelHari"></p>
+          <p class="text-5xl font-bold text-indigo-600 my-2"><span id="jumlahHari"></span></p>
+          <p class="text-slate-600 text-sm mb-3">hari</p>
+          <div class="flex justify-center gap-2 flex-wrap text-xs">
+            <span id="badgeKabisat" class="px-3 py-1 rounded-full"></span>
+            <span id="badgeAwal" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700"></span>
+            <span id="badgeAkhir" class="px-3 py-1 rounded-full bg-slate-200 text-slate-700"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kartu 2: Hitung usia -->
+      <div class="bg-white rounded-2xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-slate-700 mb-4 flex items-center gap-2">
+          <i class="bi bi-cake2 text-pink-500"></i> Hitung Usia
+        </h2>
+
+        <label class="block text-sm font-medium text-slate-600 mb-1">Tanggal Lahir</label>
+        <input id="tglLahir" type="date"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-500" />
+
+        <button onclick="hitungUsia()"
+          class="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 rounded-lg transition flex items-center justify-center gap-2">
+          <i class="bi bi-hourglass-split"></i> Hitung Usia
+        </button>
+
+        <p id="errorUsia" class="hidden mt-3 text-sm text-red-600 flex items-center gap-1">
+          <i class="bi bi-exclamation-circle"></i> <span id="pesanError"></span>
+        </p>
+
+        <div id="hasilUsia" class="hidden mt-5">
+          <div class="grid grid-cols-3 gap-2 text-center mb-4">
+            <div class="bg-pink-50 border border-pink-200 rounded-xl p-3">
+              <p class="text-3xl font-bold text-pink-600" id="usiaTahun">0</p>
+              <p class="text-xs text-slate-600">Tahun</p>
+            </div>
+            <div class="bg-pink-50 border border-pink-200 rounded-xl p-3">
+              <p class="text-3xl font-bold text-pink-600" id="usiaBulan">0</p>
+              <p class="text-xs text-slate-600">Bulan</p>
+            </div>
+            <div class="bg-pink-50 border border-pink-200 rounded-xl p-3">
+              <p class="text-3xl font-bold text-pink-600" id="usiaHari">0</p>
+              <p class="text-xs text-slate-600">Hari</p>
+            </div>
+          </div>
+
+          <ul class="space-y-2 text-sm text-slate-700">
+            <li class="flex items-center gap-2">
+              <i class="bi bi-calendar-day text-slate-500"></i>
+              Lahir hari: <strong id="hariLahir"></strong>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="bi bi-clock-history text-slate-500"></i>
+              Total hari hidup: <strong id="totalHari"></strong>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="bi bi-gift text-slate-500"></i>
+              Ulang tahun berikutnya: <strong id="ultahBerikut"></strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const namaBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+    const namaHari  = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+    // Jumlah hari dalam bulan (bulan: 0-11). Hari ke-0 bulan berikutnya = hari terakhir bulan ini.
+    function hariDalamBulan(tahun, bulan) {
+      return new Date(tahun, bulan + 1, 0).getDate();
+    }
+
+    function adalahKabisat(tahun) {
+      return (tahun % 4 === 0 && tahun % 100 !== 0) || tahun % 400 === 0;
+    }
+
+    // Isi default: bulan & tahun saat ini
+    const sekarang = new Date();
+    document.getElementById("bulan").value = sekarang.getMonth();
+    document.getElementById("tahun").value = sekarang.getFullYear();
+    document.getElementById("tglLahir").max = sekarang.toISOString().split("T")[0];
+
+    function hitungHari() {
+      const bulan = parseInt(document.getElementById("bulan").value);
+      const tahun = parseInt(document.getElementById("tahun").value);
+      if (!tahun || tahun < 1) return;
+
+      const jumlah = hariDalamBulan(tahun, bulan);
+      const awal   = new Date(tahun, bulan, 1).getDay();
+      const akhir  = new Date(tahun, bulan, jumlah).getDay();
+      const kabisat = adalahKabisat(tahun);
+
+      document.getElementById("labelHari").textContent = `${namaBulan[bulan]} ${tahun}`;
+      document.getElementById("jumlahHari").textContent = jumlah;
+      document.getElementById("badgeAwal").textContent  = `Awal: ${namaHari[awal]}`;
+      document.getElementById("badgeAkhir").textContent = `Akhir: ${namaHari[akhir]}`;
+
+      const badge = document.getElementById("badgeKabisat");
+      badge.textContent = kabisat ? "Tahun Kabisat" : "Bukan Tahun Kabisat";
+      badge.className = "px-3 py-1 rounded-full " +
+        (kabisat ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700");
+
+      document.getElementById("hasilHari").classList.remove("hidden");
+    }
+
+    function hitungUsia() {
+      const input = document.getElementById("tglLahir").value;
+      const errEl = document.getElementById("errorUsia");
+      const hasil = document.getElementById("hasilUsia");
+
+      errEl.classList.add("hidden");
+      hasil.classList.add("hidden");
+
+      if (!input) {
+        document.getElementById("pesanError").textContent = "Silakan pilih tanggal lahir.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      const lahir = new Date(input + "T00:00:00");
+      const hariIni = new Date();
+      hariIni.setHours(0, 0, 0, 0);
+
+      if (lahir > hariIni) {
+        document.getElementById("pesanError").textContent = "Tanggal lahir tidak boleh di masa depan.";
+        errEl.classList.remove("hidden");
+        return;
+      }
+
+      // Hitung selisih tahun, bulan, hari
+      let tahun = hariIni.getFullYear() - lahir.getFullYear();
+      let bulan = hariIni.getMonth() - lahir.getMonth();
+      let hari  = hariIni.getDate() - lahir.getDate();
+
+      if (hari < 0) {
+        bulan--;
+        // pinjam hari dari bulan sebelumnya
+        hari += hariDalamBulan(hariIni.getFullYear(), hariIni.getMonth() - 1);
+      }
+      if (bulan < 0) {
+        tahun--;
+        bulan += 12;
+      }
+
+      // Total hari hidup
+      const totalHari = Math.floor((hariIni - lahir) / (1000 * 60 * 60 * 24));
+
+      // Ulang tahun berikutnya
+      let ultah = new Date(hariIni.getFullYear(), lahir.getMonth(), lahir.getDate());
+      if (ultah < hariIni) ultah.setFullYear(hariIni.getFullYear() + 1);
+      const sisa = Math.round((ultah - hariIni) / (1000 * 60 * 60 * 24));
+
+      document.getElementById("usiaTahun").textContent = tahun;
+      document.getElementById("usiaBulan").textContent = bulan;
+      document.getElementById("usiaHari").textContent  = hari;
+      document.getElementById("hariLahir").textContent = namaHari[lahir.getDay()];
+      document.getElementById("totalHari").textContent = totalHari.toLocaleString("id-ID") + " hari";
+      document.getElementById("ultahBerikut").textContent =
+        sisa === 0 ? "Hari ini! 🎉" : `${sisa} hari lagi`;
+
+      hasil.classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
